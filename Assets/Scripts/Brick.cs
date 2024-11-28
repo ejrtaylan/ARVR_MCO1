@@ -11,4 +11,9 @@ public class Brick : MonoBehaviour
     public void SetMaterial(Material mat) {
         this.gameObject.GetComponent<Renderer>().material = mat;
     }
+
+    // void OnDrawGizmos() {
+    //     Gizmos.color = Color.blue;
+    //     Gizmos.DrawWireCube(transform.position, GetComponent<MeshFilter>().mesh.bounds.size);
+    // }
 }

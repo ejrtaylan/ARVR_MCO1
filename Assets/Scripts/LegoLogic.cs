@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class LegoLogic
 {
-    public static readonly Vector3 Grid = new Vector3(0.04f, 0.09f, 0.05f);
+    public static readonly Vector3 Grid = new Vector3(0.075f, 0.09f, 0.025f);
     public static int LayerMaskLego = LayerMask.GetMask("Lego");
 
     public static Vector3 SnapToGrid(Vector3 input) {
