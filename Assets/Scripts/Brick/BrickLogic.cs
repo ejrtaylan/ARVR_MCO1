@@ -1,7 +1,9 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using Lean.Common;
 using Lean.Touch;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BrickLogic : MonoBehaviour
@@ -9,12 +11,15 @@ public class BrickLogic : MonoBehaviour
     public static BrickLogic Instance;
 
     [Header("Brick")]
-    public List<Brick> BrickList;
+    public List<Brick> TempBrickList;
+    public List<Brick> CreatedBrickList;
     public Brick PrefabBrick;
+    public Brick SelectedBrick;
 
     [Header("Materials")]
     public List<Material> ColorList;
-    public Material SelectedMaterial;
+    public Material SelectedColor;
+    public Material HighlightMat;
     public Material TransparentMat;
 
     [Header("Debug")]
@@ -22,8 +27,9 @@ public class BrickLogic : MonoBehaviour
     [SerializeField] public Vector3 _worldPosition;
     [SerializeField] public bool isDragActive;
     [SerializeField] public bool isOutside;
+    [SerializeField] public int id;
 
-    public Brick CurrentBrick;
+    protected Brick CurrentBrick;
     protected bool PositionOk;
     protected Vector3 tempBrickPosition;
 
@@ -32,7 +38,7 @@ public class BrickLogic : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        SelectedMaterial = ColorList[0];
+        SelectedColor = ColorList[0];
     }
 
     void CheckOutside() {
@@ -76,10 +82,14 @@ public class BrickLogic : MonoBehaviour
 
         if(Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended && CurrentBrick != null && PositionOk) {
             Debug.Log("Brick Placed");
-            CurrentBrick.GetComponent<BoxCollider>().enabled = true;
-            CurrentBrick.GetComponent<LeanSelectableRendererColor>().enabled = true;
+            CurrentBrick.init = true;
+            CurrentBrick.SetCollider(true);
+            CurrentBrick.SetMaterial(SelectedColor);
+            CurrentBrick.SetID(id);
+            CreatedBrickList.Add(CurrentBrick);
             CurrentBrick = null;
             PrefabBrick = null;
+            id++;
         }
     }
 
@@ -88,17 +98,16 @@ public class BrickLogic : MonoBehaviour
         SwitchBrick(brickName);
         CurrentBrick = Instantiate(PrefabBrick);
         CurrentBrick.SetCollider(false);
-        CurrentBrick.GetComponent<LeanSelectableRendererColor>().enabled = false;
         CurrentBrick.SetMaterial(TransparentMat);
     }
 
     void SwitchBrick(string brickName){
         switch(brickName) {
             case "2x4":
-                PrefabBrick = BrickList[0];
+                PrefabBrick = TempBrickList[0];
                 break;
             case "2x2":
-                PrefabBrick = BrickList[1];
+                PrefabBrick = TempBrickList[1];
                 break;
         }
     }
@@ -114,9 +123,31 @@ public class BrickLogic : MonoBehaviour
                 Grid = new Vector3(bound.size.x / 2, 0.09f, bound.size.z / 2);
                 break;
         }
-        //Vector3 Grid = new Vector3(bound.size.x / 4, 0.09f, bound.size.z / 2);
         return new Vector3(Mathf.Round(input.x / Grid.x) * Grid.x,
                             Mathf.Round(input.y / Grid.y) * Grid.y,
                             Mathf.Round(input.z / Grid.z) * Grid.z);
+    }
+
+    public void DeselectBrick() {
+        if(SelectedBrick != null) SelectedBrick.GetComponent<LeanSelectableByFinger>().Deselect();
+    }
+
+    public void MoveObject() {
+        if(SelectedBrick != null) SelectedBrick.isValid = true;
+    }
+
+    public void RotateObject() {
+        if(SelectedBrick != null) {
+            SelectedBrick.isValid = false;
+            SelectedBrick.transform.Rotate(Vector3.up, 90);
+        }
+    }
+
+    public void DeleteObject() {
+        if(SelectedBrick != null) {
+            SelectedBrick.isValid = false;
+            CreatedBrickList.RemoveAt(SelectedBrick.id);
+            Destroy(SelectedBrick.gameObject);
+        }
     }
 }

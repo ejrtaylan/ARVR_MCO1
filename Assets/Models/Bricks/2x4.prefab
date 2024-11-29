@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 5423058371935798469}
   - component: {fileID: 2256730202884064871}
   - component: {fileID: 4006500087189620973}
-  - component: {fileID: 8410572304714270380}
   m_Layer: 6
   m_Name: 2x4
   m_TagString: 2x4
@@ -102,6 +101,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Collider: {fileID: 0}
+  id: 0
+  isSelected: 0
+  init: 0
+  isDrag: 0
+  mainMaterial: {fileID: 0}
+  _screenPosition: {x: 0, y: 0, z: 0}
 --- !u!65 &2256730202884064871
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -138,10 +143,34 @@ MonoBehaviour:
   selfSelected: 0
   onSelected:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5423058371935798469}
+        m_TargetAssemblyTypeName: Brick, Assembly-CSharp
+        m_MethodName: SelectBrick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onDeselected:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5423058371935798469}
+        m_TargetAssemblyTypeName: Brick, Assembly-CSharp
+        m_MethodName: DeselectBrick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   use: 0
   onSelectedFinger:
     m_PersistentCalls:
@@ -155,17 +184,3 @@ MonoBehaviour:
   onSelectedSelectFingerUp:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8410572304714270380
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8982910122139597937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2baa936f016a9a14e86ac8ea42211f4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultColor: {r: 1, g: 0, b: 0, a: 1}
-  selectedColor: {r: 0, g: 1, b: 0.74535394, a: 1}
