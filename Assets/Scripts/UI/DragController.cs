@@ -7,7 +7,7 @@ public class DragController : MonoBehaviour
 {
     public static DragController Instance;
     [SerializeField] public bool _isDragActive = false;
-    [SerializeField] public bool _Create = false;
+    [SerializeField] public bool hasDragged;
     [SerializeField] public Vector3 _screenPosition;
     [SerializeField] public Vector3 _worldPosition;
     [SerializeField] public Draggable _lastDragged;
@@ -28,7 +28,7 @@ public class DragController : MonoBehaviour
             }
         }
 
-        if(Input.GetMouseButtonDown(0)) {
+        if(Input.GetMouseButton(0)) {
             _screenPosition = Input.mousePosition;
         }
         else if(Input.touchCount > 0) {
@@ -37,14 +37,14 @@ public class DragController : MonoBehaviour
         else return;
     
         if(_isDragActive) {
-            Debug.Log("Dragging");
+            //Debug.Log("Dragging");
             Drag();
             CheckRaycast();
         }
         else {
             RaycastHit2D hit = Physics2D.Raycast(_screenPosition, Vector2.zero, Mathf.Infinity);
             if(hit.collider != null) {
-                Debug.Log("Hit");
+                //Debug.Log("Hit");
                 Draggable draggable =  hit.transform.gameObject.GetComponent<Draggable>();
                 if(draggable != null) {
                     itemName = hit.collider.name;
@@ -82,6 +82,8 @@ public class DragController : MonoBehaviour
 
         _lastDragged = null;
         itemName = "";
+
+        //hasDragged = true;
     }
 
     void UpdateDragStatus(bool isDragging) {

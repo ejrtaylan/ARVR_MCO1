@@ -1,7 +1,8 @@
 
 using System.Collections.Generic;
+using Lean.Common;
+using Lean.Touch;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class BrickLogic : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class BrickLogic : MonoBehaviour
     protected bool PositionOk;
     protected Vector3 tempBrickPosition;
 
-    void Awake() {
+    private void Awake() {
         if(Instance == null) {
             Instance = this;
             DontDestroyOnLoad(gameObject);
@@ -42,63 +43,52 @@ public class BrickLogic : MonoBehaviour
         }
     }
 
-    void Update() {
-        isDragActive = DragController.Instance._isDragActive;
-        if(Input.GetMouseButtonUp(0) && CurrentBrick != null && isOutside == false ) {
+    private void Update() {
+        isDragActive = Input.GetMouseButton(0) | Input.touchCount > 0;
+        _screenPosition = DragController.Instance._screenPosition;
+        CheckOutside();
+
+        if(Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended && CurrentBrick != null && isOutside == false ) {
             Destroy(CurrentBrick.gameObject);
             CurrentBrick = null;
             PrefabBrick = null;
         }
-
-        if(isDragActive == true) {
-            CheckOutside();
-
-            if(Input.GetMouseButtonDown(0)) {
-                _screenPosition = Input.mousePosition;
-            }
-            else if(Input.touchCount > 0) {
-                _screenPosition = Input.GetTouch(0).position;
-            }
-            else return;
-
-            if(CurrentBrick != null) {
-                Ray ray = Camera.main.ScreenPointToRay(_screenPosition + Vector3.up * 0.1f);
-                if(Physics.Raycast(ray, out var hitInfo, float.MaxValue, LegoLogic.LayerMaskLego)) {
-                    tempBrickPosition = SnapToGrid(hitInfo.point);
-                    var placePosition = tempBrickPosition;
-                    PositionOk = false;
-                    
-                    for(int i = 0; i < 10; i++) {
-                        var collider = Physics.OverlapBox(placePosition + CurrentBrick.transform.rotation * CurrentBrick.Collider.center, CurrentBrick.Collider.size / 2f, CurrentBrick.transform.rotation, LegoLogic.LayerMaskLego);
-                        PositionOk = collider.Length == 0;
-                        if(PositionOk) break;
-                        else placePosition.y += LegoLogic.Grid.y;
-                    }
-
-                    if(PositionOk) CurrentBrick.transform.position = placePosition;
-                    else CurrentBrick.transform.position = tempBrickPosition;
+        
+        if(isDragActive && CurrentBrick != null) {
+            Debug.Log("Dragging");
+            Ray ray = Camera.main.ScreenPointToRay(_screenPosition + Vector3.up * 0.1f);
+            if(Physics.Raycast(ray, out var hitInfo, float.MaxValue, LegoLogic.LayerMaskLego | LegoLogic.LayerMaskGround)) {
+                tempBrickPosition = SnapToGrid(hitInfo.point);
+                var placePosition = tempBrickPosition;
+                PositionOk = false;
+                
+                for(int i = 0; i < 10; i++) {
+                    var collider = Physics.OverlapBox(placePosition + CurrentBrick.transform.rotation * CurrentBrick.Collider.center, CurrentBrick.Collider.size / 2f, CurrentBrick.transform.rotation, LegoLogic.LayerMaskLego);
+                    PositionOk = collider.Length == 0;
+                    if(PositionOk) break;
+                    else placePosition.y += LegoLogic.Grid.y;
                 }
-            }
 
-            if(Input.GetMouseButtonUp(0) && CurrentBrick != null && PositionOk) {
-                CurrentBrick.Collider.enabled = true;
-                CurrentBrick.SetMaterial(SelectedMaterial);
-                //var rot = CurrentBrick.transform.rotation;
-                CurrentBrick = null;
-                PrefabBrick = null;
-                return;
+                if(PositionOk) CurrentBrick.transform.position = placePosition;
+                else CurrentBrick.transform.position = tempBrickPosition;
             }
+        }
 
-            if(Input.GetKeyDown(KeyCode.E)) {
-                CurrentBrick.transform.Rotate(Vector3.up, 90);
-            }
+        if(Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Ended && CurrentBrick != null && PositionOk) {
+            Debug.Log("Brick Placed");
+            CurrentBrick.GetComponent<BoxCollider>().enabled = true;
+            CurrentBrick.GetComponent<LeanSelectableRendererColor>().enabled = true;
+            CurrentBrick = null;
+            PrefabBrick = null;
         }
     }
 
     public void SetNextBrick(string brickName) {
+        Debug.Log("Brick Created");
         SwitchBrick(brickName);
         CurrentBrick = Instantiate(PrefabBrick);
-        CurrentBrick.Collider.enabled = false;
+        CurrentBrick.SetCollider(false);
+        CurrentBrick.GetComponent<LeanSelectableRendererColor>().enabled = false;
         CurrentBrick.SetMaterial(TransparentMat);
     }
 

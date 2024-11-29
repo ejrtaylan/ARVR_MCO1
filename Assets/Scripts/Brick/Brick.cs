@@ -11,4 +11,8 @@ public class Brick : MonoBehaviour
     public void SetMaterial(Material mat) {
         this.gameObject.GetComponent<Renderer>().material = mat;
     }
+
+    public void SetCollider(bool value) { 
+        this.gameObject.GetComponent<BoxCollider>().enabled = value; 
+    }
 }
