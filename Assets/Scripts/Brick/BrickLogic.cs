@@ -109,6 +109,12 @@ public class BrickLogic : MonoBehaviour
             case "2x2":
                 PrefabBrick = TempBrickList[1];
                 break;
+            case "1x4":
+                PrefabBrick = TempBrickList[2];
+                break;
+            case "1x2":
+                PrefabBrick = TempBrickList[3];
+                break;
         }
     }
 
@@ -121,6 +127,12 @@ public class BrickLogic : MonoBehaviour
                 break;
             case "2x2":
                 Grid = new Vector3(bound.size.x / 2, 0.09f, bound.size.z / 2);
+                break;
+            case "1x4":
+                Grid = new Vector3(bound.size.x / 4, 0.09f, bound.size.z);
+                break;
+            case "1x2":
+                Grid = new Vector3(bound.size.x / 2, 0.09f, bound.size.z);
                 break;
         }
         return new Vector3(Mathf.Round(input.x / Grid.x) * Grid.x,

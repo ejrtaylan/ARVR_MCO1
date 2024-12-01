@@ -6,6 +6,8 @@ TagManager:
   tags:
   - 2x4
   - 2x2
+  - 1x4
+  - 1x2
   layers:
   - Default
   - TransparentFX

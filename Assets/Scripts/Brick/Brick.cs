@@ -91,6 +91,12 @@ public class Brick : MonoBehaviour
             case "2x2":
                 Grid = new Vector3(bound.size.x / 2, 0.09f, bound.size.z / 2);
                 break;
+            case "1x4":
+                Grid = new Vector3(bound.size.x / 4, 0.09f, bound.size.z);
+                break;
+            case "1x2":
+                Grid = new Vector3(bound.size.x / 2, 0.09f, bound.size.z);
+                break;
         }
         return new Vector3(Mathf.Round(input.x / Grid.x) * Grid.x,
                             Mathf.Round(input.y / Grid.y) * Grid.y,
