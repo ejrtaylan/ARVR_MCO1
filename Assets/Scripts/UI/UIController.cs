@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,17 +12,24 @@ public class UIController : MonoBehaviour
     [SerializeField] public bool isEdit;
     [SerializeField] public GameObject EditPanel;
     [SerializeField] public Button exitButton;
-
+    [SerializeField] public TextMeshProUGUI text;
+    [SerializeField] public TextMeshProUGUI text2;
+ 
     void Awake() {
         if(Instance == null) {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
+
+        text.text = "";
+
+        
     }
 
-    void Update() {
+    private void Update() {
         CheckEditMode();
+        DebugUI();
     }
 
     void CheckEditMode() {
@@ -50,5 +58,10 @@ public class UIController : MonoBehaviour
     public void DeleteObject() {
         BrickLogic.Instance.DeleteObject();
         isEdit = false;
+    }
+
+    public void DebugUI () {
+        text.text = $"Position: {GameManager.Instance.pos}";
+        text2.text = $"Local Position: {GameManager.Instance.pos2}";
     }
 }
