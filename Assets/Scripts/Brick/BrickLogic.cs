@@ -123,16 +123,16 @@ public class BrickLogic : MonoBehaviour
         Vector3 Grid = Vector3.zero;
         switch(CurrentBrick.tag) {
             case "2x4":
-                Grid = new Vector3(bound.size.x / 4, 0.09f, bound.size.z / 2);
+                Grid = new Vector3(bound.size.x * 0.05f / 4, 0.09f * 0.05f, bound.size.z * 0.05f / 2);
                 break;
             case "2x2":
-                Grid = new Vector3(bound.size.x / 2, 0.09f, bound.size.z / 2);
+                Grid = new Vector3(bound.size.x * 0.05f / 2, 0.09f * 0.05f, bound.size.z * 0.05f / 2);
                 break;
             case "1x4":
-                Grid = new Vector3(bound.size.x / 4, 0.09f, bound.size.z);
+                Grid = new Vector3(bound.size.x * 0.05f / 4, 0.09f * 0.05f, bound.size.z * 0.05f);
                 break;
             case "1x2":
-                Grid = new Vector3(bound.size.x / 2, 0.09f, bound.size.z);
+                Grid = new Vector3(bound.size.x * 0.05f / 2, 0.09f * 0.05f, bound.size.z * 0.05f);
                 break;
         }
         return new Vector3(Mathf.Round(input.x / Grid.x) * Grid.x,
