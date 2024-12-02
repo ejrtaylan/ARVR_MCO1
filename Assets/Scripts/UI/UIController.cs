@@ -12,6 +12,8 @@ public class UIController : MonoBehaviour
     [SerializeField] public bool isEdit;
     [SerializeField] public GameObject EditPanel;
     [SerializeField] public Button exitButton;
+    [SerializeField] public GameObject ColorPanel;
+    [SerializeField] public GameObject ColorOutline;
     [SerializeField] public TextMeshProUGUI text;
     [SerializeField] public TextMeshProUGUI text2;
  
@@ -22,9 +24,8 @@ public class UIController : MonoBehaviour
         }
         else Destroy(gameObject);
 
+        DisableColor();
         text.text = "";
-
-        
     }
 
     private void Update() {
@@ -55,6 +56,20 @@ public class UIController : MonoBehaviour
         BrickLogic.Instance.RotateObject();
     }
 
+    public void EnableColor() {
+        ColorPanel.SetActive(true);
+        ColorOutline.SetActive(true);
+    }
+
+    public void DisableColor() {
+        ColorPanel.SetActive(false);
+        ColorOutline.SetActive(false);
+    }
+
+    public void ColorObject(int colorID) {
+        BrickLogic.Instance.ColorObject(colorID);
+    }
+
     public void DeleteObject() {
         BrickLogic.Instance.DeleteObject();
         isEdit = false;
@@ -63,5 +78,13 @@ public class UIController : MonoBehaviour
     public void DebugUI () {
         text.text = $"Position: {GameManager.Instance.pos}";
         text2.text = $"Local Position: {GameManager.Instance.pos2}";
+    }
+
+    public void SaveBricks() {
+        BrickLogic.Instance.SaveData();
+    }
+
+    public void LoadBricks() {
+        //BrickLogic.Instance.LoadData();
     }
 }

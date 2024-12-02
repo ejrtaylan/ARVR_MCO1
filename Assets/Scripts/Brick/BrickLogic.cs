@@ -155,11 +155,26 @@ public class BrickLogic : MonoBehaviour
         }
     }
 
+    public void ColorObject(int colorID) {
+        if(SelectedBrick != null) {
+            SelectedBrick.isValid = false;
+            SelectedBrick.SetMaterial(ColorList[colorID]);
+        }
+    }
+
     public void DeleteObject() {
         if(SelectedBrick != null) {
             SelectedBrick.isValid = false;
             CreatedBrickList.RemoveAt(SelectedBrick.id);
             Destroy(SelectedBrick.gameObject);
         }
+    }
+
+    public void SaveData() {
+
+    }
+
+    public void LoadData() {
+        
     }
 }
