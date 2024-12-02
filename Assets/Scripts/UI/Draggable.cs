@@ -11,7 +11,6 @@ public class Draggable : MonoBehaviour
     }
 
     void OnTriggerExit2D(Collider2D other) {
-
         isOutside = true;
     }
 }

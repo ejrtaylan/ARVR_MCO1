@@ -12,6 +12,7 @@ public class Brick : MonoBehaviour
     [SerializeField] public bool isValid = true;
     [SerializeField] public bool isDrag;
     [SerializeField] public Material mainMaterial;
+    [SerializeField] public int materialID;
     [SerializeField] public Vector3 _screenPosition;
 
     protected bool PositionOk;
@@ -61,6 +62,10 @@ public class Brick : MonoBehaviour
     public void SetMaterial(Material mat) {
         mainMaterial = mat;
         this.gameObject.GetComponent<Renderer>().material = mainMaterial;
+    }
+
+    public void SetMaterialID(int id) {
+        materialID = id;
     }
 
     public void SetCollider(bool value) { 

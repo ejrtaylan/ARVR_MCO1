@@ -9,6 +9,9 @@ TagManager:
   - 1x4
   - 1x2
   - Debug
+  - Custom1
+  - Custom2
+  - Custom3
   layers:
   - Default
   - TransparentFX

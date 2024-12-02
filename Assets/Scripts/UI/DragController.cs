@@ -44,9 +44,10 @@ public class DragController : MonoBehaviour
         else {
             RaycastHit2D hit = Physics2D.Raycast(_screenPosition, Vector2.zero, Mathf.Infinity);
             if(hit.collider != null) {
-                //Debug.Log("Hit");
+                //Debug.Log(hit.collider.name);
                 Draggable draggable =  hit.transform.gameObject.GetComponent<Draggable>();
                 if(draggable != null) {
+                    //Debug.Log("Hit");
                     itemName = hit.collider.name;
                     _lastDragged = draggable;
                     InitDrag();

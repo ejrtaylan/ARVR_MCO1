@@ -14,6 +14,7 @@ public class UIController : MonoBehaviour
     [SerializeField] public Button exitButton;
     [SerializeField] public GameObject ColorPanel;
     [SerializeField] public GameObject ColorOutline;
+    [SerializeField] public GameObject CustomBrickList;
     [SerializeField] public TextMeshProUGUI text;
     [SerializeField] public TextMeshProUGUI text2;
  
@@ -31,6 +32,7 @@ public class UIController : MonoBehaviour
     private void Update() {
         CheckEditMode();
         DebugUI();
+        EnableLoad();
     }
 
     void CheckEditMode() {
@@ -40,6 +42,12 @@ public class UIController : MonoBehaviour
         else {
             EditPanel.SetActive(false);
         }
+    }
+
+    void EnableLoad() {
+        // if(BrickLogic.Instance.customID > 0) {
+        //     CustomBrickList.SetActive(true);
+        // }
     }
 
     public void EnableEdit() { isEdit = true; }
@@ -81,7 +89,7 @@ public class UIController : MonoBehaviour
     }
 
     public void SaveBricks() {
-        BrickLogic.Instance.SaveData();
+        BrickLogic.Instance.SaveBricks();
     }
 
     public void LoadBricks() {
