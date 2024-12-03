@@ -12,6 +12,8 @@ TagManager:
   - Custom1
   - Custom2
   - Custom3
+  - 1x1
+  - F2x4
   layers:
   - Default
   - TransparentFX

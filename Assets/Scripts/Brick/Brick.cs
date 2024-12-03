@@ -90,17 +90,21 @@ public class Brick : MonoBehaviour
         var bound = gameObject.GetComponent<MeshFilter>().mesh.bounds;
         Vector3 Grid = Vector3.zero;
         switch(gameObject.tag) {
-            case "2x4":
+             case "2x4":
+            case "F2x4":
                 Grid = new Vector3(bound.size.x * 0.05f / 4, 0.09f * 0.05f, bound.size.z * 0.05f / 2);
                 break;
             case "2x2":
                 Grid = new Vector3(bound.size.x * 0.05f / 2, 0.09f * 0.05f, bound.size.z * 0.05f / 2);
                 break;
             case "1x4":
-                Grid = new Vector3(bound.size.x * 0.05f / 4, 0.09f * 0.05f, bound.size.z * 0.05f);
+                Grid = new Vector3(bound.size.x * 0.05f / 4, 0.09f * 0.05f, bound.size.z * 0.05f / 1);
                 break;
             case "1x2":
-                Grid = new Vector3(bound.size.x * 0.05f / 2, 0.09f * 0.05f, bound.size.z * 0.05f);
+                Grid = new Vector3(bound.size.x * 0.05f / 2, 0.09f * 0.05f, bound.size.z * 0.05f / 1);
+                break;
+            case "1x1":
+                Grid = new Vector3(bound.size.x * 0.05f, 0.09f / 0.05f, bound.size.z * 0.05f);
                 break;
         }
         return new Vector3(Mathf.Round(input.x / Grid.x) * Grid.x,
@@ -114,5 +118,18 @@ public class Brick : MonoBehaviour
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
         return results.Count > 0;
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        //Gizmos.DrawWireCube(GetComponent<BoxCollider>().bounds.center, GetComponent<BoxCollider>().bounds.size);
+
+        var oldMatrix = Gizmos.matrix;
+        // create a matrix which translates an object by "position", rotates it by "rotation" and scales it by "halfExtends * 2"
+        Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.GetComponent<BoxCollider>().bounds.extents * 2);
+        // Then use it one a default cube which is not translated nor scaled
+        Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
+        Gizmos.matrix = oldMatrix;
     }
 }

@@ -15,8 +15,6 @@ public class UIController : MonoBehaviour
     [SerializeField] public GameObject ColorPanel;
     [SerializeField] public GameObject ColorOutline;
     [SerializeField] public GameObject CustomBrickList;
-    [SerializeField] public TextMeshProUGUI text;
-    [SerializeField] public TextMeshProUGUI text2;
  
     void Awake() {
         if(Instance == null) {
@@ -24,15 +22,11 @@ public class UIController : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
-
         DisableColor();
-        text.text = "";
     }
 
     private void Update() {
         CheckEditMode();
-        DebugUI();
-        EnableLoad();
     }
 
     void CheckEditMode() {
@@ -44,16 +38,13 @@ public class UIController : MonoBehaviour
         }
     }
 
-    void EnableLoad() {
-        // if(BrickLogic.Instance.customID > 0) {
-        //     CustomBrickList.SetActive(true);
-        // }
+    public void EnableEdit() { 
+        isEdit = true; 
     }
 
-    public void EnableEdit() { isEdit = true; }
     public void DisableEdit() {
         BrickLogic.Instance.DeselectBrick();
-        isEdit = false; 
+        EditPanel.GetComponent<EditBox>().CloseEdit();
     }
 
     public void MoveObject() {
@@ -70,8 +61,7 @@ public class UIController : MonoBehaviour
     }
 
     public void DisableColor() {
-        ColorPanel.SetActive(false);
-        ColorOutline.SetActive(false);
+        ColorPanel.GetComponent<ColorBox>().CloseEdit();
     }
 
     public void ColorObject(int colorID) {
@@ -81,18 +71,5 @@ public class UIController : MonoBehaviour
     public void DeleteObject() {
         BrickLogic.Instance.DeleteObject();
         isEdit = false;
-    }
-
-    public void DebugUI () {
-        text.text = $"Position: {GameManager.Instance.pos}";
-        text2.text = $"Local Position: {GameManager.Instance.pos2}";
-    }
-
-    public void SaveBricks() {
-        BrickLogic.Instance.SaveBricks();
-    }
-
-    public void LoadBricks() {
-        //BrickLogic.Instance.LoadData();
     }
 }
