@@ -90,8 +90,7 @@ public class Brick : MonoBehaviour
         var bound = gameObject.GetComponent<MeshFilter>().mesh.bounds;
         Vector3 Grid = Vector3.zero;
         switch(gameObject.tag) {
-             case "2x4":
-            case "F2x4":
+            case "2x4":
                 Grid = new Vector3(bound.size.x * 0.05f / 4, 0.09f * 0.05f, bound.size.z * 0.05f / 2);
                 break;
             case "2x2":
@@ -104,7 +103,7 @@ public class Brick : MonoBehaviour
                 Grid = new Vector3(bound.size.x * 0.05f / 2, 0.09f * 0.05f, bound.size.z * 0.05f / 1);
                 break;
             case "1x1":
-                Grid = new Vector3(bound.size.x * 0.05f, 0.09f / 0.05f, bound.size.z * 0.05f);
+                Grid = new Vector3(bound.size.x * 0.05f / 1, 0.09f * 0.05f, bound.size.z * 0.05f / 1);
                 break;
         }
         return new Vector3(Mathf.Round(input.x / Grid.x) * Grid.x,

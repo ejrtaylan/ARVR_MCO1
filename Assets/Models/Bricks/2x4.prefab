@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 396048233962809519}
   - component: {fileID: 5440032775136019371}
   - component: {fileID: 5423058371935798469}
-  - component: {fileID: 2256730202884064871}
+  - component: {fileID: 9143824323370408750}
   - component: {fileID: 4006500087189620973}
   m_Layer: 6
   m_Name: 2x4
@@ -109,7 +109,7 @@ MonoBehaviour:
   mainMaterial: {fileID: 0}
   materialID: 0
   _screenPosition: {x: 0, y: 0, z: 0}
---- !u!65 &2256730202884064871
+--- !u!65 &9143824323370408750
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,10 +125,10 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
-  m_ProvidesContacts: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.3, y: 0.008, z: 0.1}
+  m_Size: {x: 0.3, y: 0.03, z: 0.1}
   m_Center: {x: 0, y: 0.05, z: 0}
 --- !u!114 &4006500087189620973
 MonoBehaviour:

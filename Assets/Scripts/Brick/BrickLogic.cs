@@ -6,6 +6,10 @@ public class BrickLogic : MonoBehaviour
 {
     public static BrickLogic Instance;
 
+    [Header("Guide")]
+    [SerializeField] public GameObject guideBrick;
+    [SerializeField] public GameObject tempGuideBrick;
+
     [Header("Brick")]
     public List<Brick> TempBrickList;
     public List<Brick> CreatedBrickList;
@@ -25,6 +29,8 @@ public class BrickLogic : MonoBehaviour
     [SerializeField] public bool isOutside;
     [SerializeField] public int id;
     [SerializeField] protected Brick CurrentBrick;
+    [SerializeField] public bool hasPlaced;
+    [SerializeField] public Transform groundPos;
     protected bool PositionOk;
     protected Vector3 tempBrickPosition;
 
@@ -70,7 +76,6 @@ public class BrickLogic : MonoBehaviour
                 PositionOk = false;
                 for(int i = 0; i < 10; i++) {
                     var collider = Physics.OverlapBox(placePosition + CurrentBrick.transform.rotation * CurrentBrick.GetComponent<Brick>().Collider.center, CurrentBrick.GetComponent<Brick>().Collider.size / 2f, CurrentBrick.transform.rotation, LegoLogic.LayerMaskLego);
-                    Debug.Log(collider.Length);
                     PositionOk = collider.Length == 0;
                     if(PositionOk) break;
                     else placePosition.y += LegoLogic.Grid.y;
@@ -130,7 +135,6 @@ public class BrickLogic : MonoBehaviour
         Vector3 Grid = Vector3.zero;
         switch(CurrentBrick.tag) {
             case "2x4":
-            case "F2x4":
                 Grid = new Vector3(bound.size.x * 0.05f / 4, 0.09f * 0.05f, bound.size.z * 0.05f / 2);
                 break;
             case "2x2":
@@ -143,9 +147,8 @@ public class BrickLogic : MonoBehaviour
                 Grid = new Vector3(bound.size.x * 0.05f / 2, 0.09f * 0.05f, bound.size.z * 0.05f / 1);
                 break;
             case "1x1":
-                Grid = new Vector3(bound.size.x * 0.05f, 0.09f / 0.05f, bound.size.z * 0.05f);
+                Grid = new Vector3(bound.size.x * 0.05f / 1, 0.09f * 0.05f, bound.size.z * 0.05f / 1);
                 break;
-
         }
         return new Vector3(Mathf.Round(input.x / Grid.x) * Grid.x,
                             Mathf.Round(input.y / Grid.y) * Grid.y,
@@ -185,5 +188,15 @@ public class BrickLogic : MonoBehaviour
             Destroy(SelectedBrick.gameObject);
             SelectedBrick = null;
         }
+    }
+
+    public void CreateGuide() {
+        if(hasPlaced) {
+            tempGuideBrick = Instantiate(guideBrick, groundPos);
+        }
+    }
+
+    public void DeleteGuide() {
+
     }
 }
